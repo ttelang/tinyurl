@@ -2,7 +2,7 @@
 A simple implementation of tiny URL using the minimalistic approach, it shortening a long original URL into a shorter and manageable URL.
 
 **Existing Services:** 
-tinyurl.com, bit.ly, ow.ly, short.io
+tinyurl.com, bit.ly, ow.ly, short.io, bl.ink, Rebrandly, shorby, sniply
 
 ## Clarifications
 Can users create private URLs or allow a particular set of users to access a URL?
