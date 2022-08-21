@@ -1,13 +1,35 @@
-# Tiny Url
+Assuming that we would like to design a URL shortener service, various considerations need to be taken into account. To start with, we need to decide on the functionality that our service will offer. 
+
+For instance, will users be able to customize their shortened URLs? 
+Alternatively, will the service simply generate a random string of characters for each URL?
+
+In terms of scalability, one important question is how we will store the data associated with each shortened URL. For example, will we use a database? If so, which type of database would be best suited for our needs? In addition, we need to consider how often data will be accessed and whether or not we will need to support real-time lookups.
+
+Finally, we need to think about how our service will be used. Will users be interacting with it via a web interface? Or will they be using an API? Depending on our answer, we may need to design our system accordingly.
+
+In summary, designing a URL shortener service requires careful planning and consideration of various factors. By taking the time to think about our requirements upfront, we can create a system that is both scalable and secure.
+
+# Introduction 
 A simple implementation of tiny URL using the minimalistic approach, it shortening a long original URL into a shorter and manageable URL.
+
+This project is about system design of a URL shortener service like bit.ly, goo.gl or tinyurl.com. We'll look into the various design aspects and trade-offs involved in creating such a service. A URL shortener service is a web service that provides shortened URLs for long URLs. The shortened URL is easier to remember and share than the long URL. The service also provides a way to track clicks on shortened URLs.
+
+There are many existing URL shortener services, such as bit.ly, goo.gl, and tinyurl.com. In this project, we will design our own URL shortener service.
 
 **Existing Services:** 
 tinyurl.com, bit.ly, ow.ly, short.io, bl.ink, Rebrandly, shorby, sniply
 
 ## Clarifications
-Can users create private URLs or allow a particular set of users to access a URL?
-How many times a short URL has been used, what were user locations, etc.? 
-How would we store these statistics? 
+- Can users create private URLs or allow a particular set of users to access a URL?
+- How many times a short URL has been used, what were user locations, etc.? 
+- How would we store these statistics? 
+- Customization: Users should be able to choose their own custom URL instead of a randomly generated URL. 
+- Tracking: The service should be able to track the number of clicks on each shortened URL. 
+- Storage: We will use a database to store the data associated with each shortened URL. 
+- Access Time: Data will be accessed in real-time. 
+- Security: We will rate limit requests and implement some type of filtering to prevent abuse. 
+- Usage: Users will be interacting with the service via an API. 
+
 If it is part of a DB row that gets updated on each view, what will happen when a popular URL is slammed with a large number of concurrent requests?
 
 ## User Stories
@@ -19,6 +41,18 @@ Details: The system should ensure that 2 URLs never map to the same shortened UR
 
 3. (MVP) As a user you can type the shortened URL into the browser to get redirected to the original URL. 
 
+Other examples
+As a user, I want to be able to shorten a URL so that I can share it more easily. 
+
+As a user, I want to be able to view statistics about how many people have clicked on my shortened URL so that  I can track its effectiveness. 
+
+As a user, I want to be able to choose my own short code for a URL so that I can remember it more easily. 
+
+As a user, I want the service to be secure so that my data is not compromised. 
+
+As a user, I want the service to be fast so that I can shorten and share my URLs as quickly as possible. 
+
+As a user, I want the service to be free so that I don't have to pay anything to use it. 
 
 ## Non-Functional Requirements
 
@@ -97,6 +131,7 @@ Some statistics worth tracking:
 ### Load Balancer 
 ### Application Server
 ### Cache
+We can also use a load balancer to distribute traffic among multiple web servers. This will help to ensure that the system can handle a large number of requests. 
 
 ### Database
 - URL Table
