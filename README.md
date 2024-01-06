@@ -243,6 +243,29 @@ shortURL consists of 7 character in base64 format. Characterset for shortURL [a-
 ## Implementation
 Currently this project is only implemented using NodeJS. Kindly email me at (tarun.telang@gmail.com) if you are interested in implementing this using .NET, Python, Spring Boot or any other framework.
 
+### Algorithm
+
+- **Character Set:** Use a character set including lowercase and uppercase letters, digits, underscore (_), and hyphen (-), resulting in 64 characters.
+- **Random Number Generation for URL Encoding:** Generate a random number to use as the unique identifier for each URL. Ensure that this number falls within a range that can be effectively handled by your system.
+- **Base-64 Conversion:** Convert this random unique identifier into a base-64 number using the defined character set.
+- **Short URL Generation:** Map each digit of the base-64 number to a character in the character set. Concatenate these characters to form the short URL.
+- **Uniqueness Check and Collision Handling:** Check if the generated short URL is already in use. If so, generate a new random number and repeat the process.
+- **Mapping Storage:**Store the mapping between the generated short URL and the original URL in your database.
+
+![TinyURL Algorithm](https://github.com/ttelang/tinyurl/assets/133903/d21025ed-e644-425f-ac74-7b7eab21ee78)
+
+- Start: The process begins.
+- Choose Character Set: The character set for encoding is selected (64 characters including a-z, A-Z, 0-9, _, -).
+- Generate Random Number: A random number is generated to serve as the unique identifier.
+- Check if Unique ID is Already Used: The system checks if the generated ID is already in use in the database.
+- While Loop:
+- If the ID is already used, the process generates a new random number and checks again.
+- This loop continues until an unused ID is generated.
+- Convert Unique ID to Base-64: The unique ID is converted into a Base-64 string using the character set.
+- Form Short URL: The short URL is formed by concatenating characters based on the Base-64 conversion.
+- Store URL Mapping in Database: The mapping between the short URL and the original URL is stored in the database.
+- Stop: The process ends.
+
 ## Related Questions 
 **How would you handle the data storage for this many URLs and requests?**
 We would need a highly scalable database. A NoSQL database like Cassandra, known for its high write throughput, would be suitable here. We also need to consider data partitioning and replication for high availability and fast read/write access.
