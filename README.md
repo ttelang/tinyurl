@@ -201,9 +201,9 @@ Following are the key components of a TinyURL service:
 This architecture provides a robust framework for a TinyURL service, ensuring efficiency, scalability, and reliability. Each component plays a vital role in the system's overall functionality and user experience.
 Each of these components plays a specific role in the system:
 
-- **User: **Initiates the interaction with the TinyURL service.
+- **User:** Initiates the interaction with the TinyURL service.
 - **Load Balancer (ELB):** Distributes incoming traffic to web servers to balance the load.
-- **Web Servers (Nginx): **Handle HTTP requests and serve the web application.
+- **Web Servers (Nginx):** Handle HTTP requests and serve the web application.
 - **API Gateway:** Manages API requests, providing routing, security, and other cross-cutting concerns.
 - **URL Shortener Servers (EC2):** Dedicated servers for handling URL shortening logic.
 - **Redirection Servers (EC2):** Servers that handle redirecting short URLs to the original URLs.
