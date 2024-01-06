@@ -68,11 +68,11 @@ Below is the use case diagram for this system.
 * _User:_ Represents the end user of the URL shortening service.
 
 **Use Cases:**
-* _Enter Long URL (UC1):_ Users input a long URL they wish to shorten.
-* _Receive Short URL (UC2):_ The system generates a short URL.
-* _Redirect to Long URL (UC3):_ Users are redirected to the original URL when accessing the short URL.
-* _Customize Short URL (UC4):_ Users request a custom short URL.
-* _Specify Expiration Time (UC5):_ Users set an expiration time for the short URL.
+* _Enter Long URL:_ Users input a long URL they wish to shorten.
+* _Receive Short URL:_ The system generates a short URL.
+* _Redirect to Long URL:_ Users are redirected to the original URL when accessing the short URL.
+* _Customize Short URL:_ Users request a custom short URL.
+* _Specify Expiration Time:_ Users set an expiration time for the short URL.
 
 ## Non-Functional Requirements
 
@@ -211,18 +211,6 @@ Each of these components plays a specific role in the system:
 - **Database (RDS):** Stores all persistent data, including URL mappings and user information.
 - **Monitoring System (Prometheus):** Monitors the health and performance of the entire system.
 
-How would you handle the data storage for this many URLs and requests?
-We would need a highly scalable database. A NoSQL database like Cassandra, known for its high write throughput, would be suitable here. We also need to consider data partitioning and replication for high availability and fast read/write access.
-
-Considering the massive scale, how would you ensure low latency and high availability of the system?
-Caching frequently accessed URLs at the edge using a service like Redis can significantly reduce latency. For high availability, we should deploy our service across multiple data centers and use load balancing to distribute traffic.
-
-Let's touch on analytics and monitoring. How would you implement these in your design?
-For analytics, we can log each URL access with its metadata, like timestamp and user info, and process these logs asynchronously to generate insights. For monitoring, we’d use a combination of system metrics and application-level metrics to monitor the health and performance of our service.
-
-how would you approach security and authorization for creating short links?
-We should implement API keys for users to authenticate requests. Rate limiting is also crucial to prevent abuse. For sensitive URLs, we can add an option for users to create private links, which are only accessible to users with the right permissions.
-
 ### Telemetry
 Some statistics worth tracking: 
 - country of the visitor, 
@@ -230,12 +218,6 @@ Some statistics worth tracking:
 - web page that referred the click, 
 - browser, 
 - platform from where the page was accessed.
-
-### Health Check System
-### Load Balancer 
-### Application Server
-### Cache
-We can also use a load balancer to distribute traffic among multiple web servers. This will help to ensure that the system can handle a large number of requests. 
 
 ### Database
 - URL Table
@@ -260,3 +242,26 @@ shortURL consists of 7 character in base64 format. Characterset for shortURL [a-
 ## Implementation
 Currently this project is only implemented using NodeJS. Kindly email me at (tarun.telang@gmail.com) if you are interested in implementing this using .NET, Python, Spring Boot or any other framework.
 
+## Related Questions 
+**How would you handle the data storage for this many URLs and requests?**
+We would need a highly scalable database. A NoSQL database like Cassandra, known for its high write throughput, would be suitable here. We also need to consider data partitioning and replication for high availability and fast read/write access.
+
+**Considering the massive scale, how would you ensure low latency and high availability of the system?**
+Caching frequently accessed URLs at the edge using a service like Redis can significantly reduce latency. For high availability, we should deploy our service across multiple data centers and use load balancing to distribute traffic.
+
+**Let's touch on analytics and monitoring. How would you implement these in your design?**
+For analytics, we can log each URL access with its metadata, like timestamp and user info, and process these logs asynchronously to generate insights. For monitoring, we’d use a combination of system metrics and application-level metrics to monitor the health and performance of our service.
+
+**how would you approach security and authorization for creating short links?**
+We should implement API keys for users to authenticate requests. Rate limiting is also crucial to prevent abuse. For sensitive URLs, we can add an option for users to create private links, which are only accessible to users with the right permissions.
+
+# Conclusion and Further Resources
+The design and implementation of a TinyURL or URL shortening service involves a thoughtful approach to system architecture, considering aspects like scalability, performance, and reliability. The components and layers we've discussed form the backbone of such a system. For a more in-depth understanding and practical insights, you might find the following resources helpful:
+
+* [Mastering System Design: Create A Tiny Url Or Url Shortener Service In Just 45 Mins!](https://youtu.be/57b72O-wz90): This resource can provide a comprehensive look at the system design process for a URL shortening service, covering aspects from initial planning to detailed architecture decisions.
+
+* [How To Create Your Own TinyURL With Node.js On Repl.it: Step-by-step Guide](https://www.youtube.com/live/rzfVm8_U8bs?si=3gP189x0zpeRWPcq):
+For those interested in hands-on development, this guide offers a step-by-step approach to building your own TinyURL service using Node.js. It's particularly useful for understanding the coding and implementation aspects of such a service.
+This live session on YouTube could be an excellent visual and interactive resource, offering real-time insights and explanations about designing a URL shortener service.
+
+These resources can provide both theoretical and practical knowledge, enhancing your understanding of how URL shortening services are built and operated at scale. They can be particularly useful for software developers, system architects, and students interested in backend development and system design. Remember, building such systems not only requires a good grasp of the architecture but also an understanding of the specific technologies and programming languages involved, such as Node.js for server-side logic, database management for storing URL mappings, and web technologies for the frontend interface.
