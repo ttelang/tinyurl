@@ -196,7 +196,8 @@ Following are the key components of a TinyURL service:
 - Continuously monitors system health and performance.
 - Triggers alerts and notifications in case of system failures or performance degradation.
 
-![TinyURL Architecture](https://github.com/ttelang/tinyurl/assets/133903/b10ec3ff-4d35-4dc4-a50b-8eff07c4b32d)
+![TinyURL Layered Architecture](https://github.com/ttelang/tinyurl/assets/133903/31c14c9e-98ba-42e3-96c7-da1959412699)
+
 
 This architecture provides a robust framework for a TinyURL service, ensuring efficiency, scalability, and reliability. Each component plays a vital role in the system's overall functionality and user experience.
 Each of these components plays a specific role in the system:
