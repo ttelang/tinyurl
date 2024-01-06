@@ -38,12 +38,20 @@ If it is part of a DB row that gets updated on each view, what will happen when 
 
 ## User Stories or Use Cases
 
-1. (MVP) As a user you can enter a URL to shorten in the system to get back a unique shortened URL. 
+1. URL Shortening (MVP):  As a user, I want to enter a long URL and receive a unique shortened URL so that I can easily share it across platforms where space is limited or a shorter URL is more convinient. 
 Details: The system should ensure that 2 URLs never map to the same shortened URL.
+2. Custom Short Links (Optional): As a user, I want the option to customize the short link when creating it so that I can make it memorable, meaningful, or branded for my specific needs. 
+3. URL Redirection (MVP): As a user I can click on the shortened URL into the browser to get redirected to the original long URL so that I can access the content intended by the short link without needing to know the full URL.
+4. Link Expiration: As a user, I want my short links to have an expiration date so that they automatically become inactive after a certain period, ensuring they're only used within the timeframe I deem relevant.
+5. Specifying Expiration Time: As a user, I want the ability to specify the expiration time for my short links so that I can control their longevity based on my requirements or preferences.
 
-2. (Optional) As a user you can enter a URL to shorten and a custom string, so that The system returns shortened URL with the custom string as suffix as inputted by user provided this shortened URL with the custom string as suffix is available. 
-
-3. (MVP) As a user you can type the shortened URL into the browser to get redirected to the original URL. 
+* User Analytics: As a marketing analyst, I want to access detailed analytics on URL usage, including click-through rates, geographical data, and device information, so that I can understand user engagement and refine marketing strategies.
+* Data Privacy Compliance: As a legal compliance officer, I want the system to adhere to data privacy laws and regulations like GDPR, ensuring that user data is handled and stored in compliance with legal requirements.
+* Security Monitoring: As a security specialist, I want to monitor the system for any unusual activities or potential security threats, such as brute-force attacks or unauthorized access attempts, so that I can safeguard the system against cyber threats.
+* Monitoring for System Health: As a system administrator, I want to continuously monitor the health of the system, including uptime, response times, and server load, so that I can proactively address issues and maintain high system availability.
+* Telemetry for System Performance: As a system engineer, I want to collect real-time telemetry data on system performance, including request rates, latency, and error rates, so that I can ensure the system is performing optimally and identify areas for improvement.
+* Authentication User Story for Users: As a user, I want to have the ability to create an account and log in securely, so that I can track and manage my created short URLs and access detailed analytics.
+* Security: As a system administrator, I want to ensure that all data transfer within the system is securely encrypted, both in transit and at rest, so that user data and URL information are protected from unauthorized access or breaches.
 
 Other examples
 * As a user, I want to be able to shorten a URL so that I can share it more easily. 
@@ -160,6 +168,60 @@ Host: urlshrtnr.taruntelang.repl.co
 Short links are easy to display, print, share via message or tweet. They are also used to analyze audience, measure ad campaigns performance or hide affiliated URLs 
 
 ## Components
+At a high level, the service would need an efficient way to store and retrieve the mappings between shortened URLs and the original URLs. This involves a reliable database. We'll also need a front-end interface for users to input their URLs, and a backend service that handles the business logic - including generating the short URL, storing it, and redirecting users.
+
+Let's dive deeper into the URL generation logic. How would you ensure that the URLs are unique and not easily guessable?
+We can use a hash function to generate a short URL from the original URL. To avoid collisions, we can append an incremental counter or a timestamp. For non-guessability, we can use a random string generator along with hashing. But we need to ensure that the same URL doesn't get different shortened URLs, to maintain consistency.
+
+Following are the key components of a TinyURL service: 
+1. **Load Balancer:**
+- Effectively distributes incoming network traffic across multiple servers.
+- Enhances availability and prevents any single server from becoming a bottleneck.
+2. **Web Server:**
+- Manages HTTP requests from users and clients.
+- Serves as the face of the application, handling all user interactions.
+3. **API Gateway:**
+- Acts as a single entry point for all API requests.
+- Manages API routing, security (like API keys and rate limiting), and authorization processes.
+4. **App Servers:**
+- Host the application logic including:
+  - Redirection Logic: Manages the redirection of short URLs to the original long URLs.
+  - URL Shortening Service: Contains the core logic for generating short URLs, typically using hashing algorithms or unique ID generators.
+5. **Database:**
+- Stores critical data such as mappings between short and original URLs, user account information, custom URL requests, and expiration details.
+6. **Cache:**
+- Implements caching solutions like Redis or Memcached to enhance performance.
+- Reduces the load on the database by caching frequent queries.
+7. **Monitoring and Alerting System:**
+- Continuously monitors system health and performance.
+- Triggers alerts and notifications in case of system failures or performance degradation.
+
+![TinyURL Architecture](https://github.com/ttelang/tinyurl/assets/133903/b10ec3ff-4d35-4dc4-a50b-8eff07c4b32d)
+
+This architecture provides a robust framework for a TinyURL service, ensuring efficiency, scalability, and reliability. Each component plays a vital role in the system's overall functionality and user experience.
+Each of these components plays a specific role in the system:
+
+**User: **Initiates the interaction with the TinyURL service.
+**Load Balancer (ELB):** Distributes incoming traffic to web servers to balance the load.
+**Web Servers (Nginx): **Handle HTTP requests and serve the web application.
+**API Gateway:** Manages API requests, providing routing, security, and other cross-cutting concerns.
+**URL Shortener Servers (EC2):** Dedicated servers for handling URL shortening logic.
+**Redirection Servers (EC2):** Servers that handle redirecting short URLs to the original URLs.
+**Cache (Redis):** Provides fast access to frequently requested data, reducing load on the database.
+**Database (RDS):** Stores all persistent data, including URL mappings and user information.
+**Monitoring System (Prometheus):** Monitors the health and performance of the entire system.
+
+How would you handle the data storage for this many URLs and requests?
+We would need a highly scalable database. A NoSQL database like Cassandra, known for its high write throughput, would be suitable here. We also need to consider data partitioning and replication for high availability and fast read/write access.
+
+Considering the massive scale, how would you ensure low latency and high availability of the system?
+Caching frequently accessed URLs at the edge using a service like Redis can significantly reduce latency. For high availability, we should deploy our service across multiple data centers and use load balancing to distribute traffic.
+
+Let's touch on analytics and monitoring. How would you implement these in your design?
+For analytics, we can log each URL access with its metadata, like timestamp and user info, and process these logs asynchronously to generate insights. For monitoring, we’d use a combination of system metrics and application-level metrics to monitor the health and performance of our service.
+
+how would you approach security and authorization for creating short links?
+We should implement API keys for users to authenticate requests. Rate limiting is also crucial to prevent abuse. For sensitive URLs, we can add an option for users to create private links, which are only accessible to users with the right permissions.
 
 ### Telemetry
 Some statistics worth tracking: 
@@ -190,7 +252,7 @@ We can also use a load balancer to distribute traffic among multiple web servers
    CreationDate: DATETIME
    LastLoginDate: DATETIME
 
-We need to store billions of rows we can go with NoSQL database. This will be easy to scale. Also there are not many relationships.
+We need to store billions of rows we can go with NoSQL database like Cassandara. This will be easy to scale. Also there are not many relationships.
   
 ## Design
 shortURL consists of 7 character in base64 format. Characterset for shortURL [a-z A-Z 0-9 - _]  
