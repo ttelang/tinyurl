@@ -201,15 +201,15 @@ Following are the key components of a TinyURL service:
 This architecture provides a robust framework for a TinyURL service, ensuring efficiency, scalability, and reliability. Each component plays a vital role in the system's overall functionality and user experience.
 Each of these components plays a specific role in the system:
 
-**User: **Initiates the interaction with the TinyURL service.
-**Load Balancer (ELB):** Distributes incoming traffic to web servers to balance the load.
-**Web Servers (Nginx): **Handle HTTP requests and serve the web application.
-**API Gateway:** Manages API requests, providing routing, security, and other cross-cutting concerns.
-**URL Shortener Servers (EC2):** Dedicated servers for handling URL shortening logic.
-**Redirection Servers (EC2):** Servers that handle redirecting short URLs to the original URLs.
-**Cache (Redis):** Provides fast access to frequently requested data, reducing load on the database.
-**Database (RDS):** Stores all persistent data, including URL mappings and user information.
-**Monitoring System (Prometheus):** Monitors the health and performance of the entire system.
+- **User: **Initiates the interaction with the TinyURL service.
+- **Load Balancer (ELB):** Distributes incoming traffic to web servers to balance the load.
+- **Web Servers (Nginx): **Handle HTTP requests and serve the web application.
+- **API Gateway:** Manages API requests, providing routing, security, and other cross-cutting concerns.
+- **URL Shortener Servers (EC2):** Dedicated servers for handling URL shortening logic.
+- **Redirection Servers (EC2):** Servers that handle redirecting short URLs to the original URLs.
+- **Cache (Redis):** Provides fast access to frequently requested data, reducing load on the database.
+- **Database (RDS):** Stores all persistent data, including URL mappings and user information.
+- **Monitoring System (Prometheus):** Monitors the health and performance of the entire system.
 
 How would you handle the data storage for this many URLs and requests?
 We would need a highly scalable database. A NoSQL database like Cassandra, known for its high write throughput, would be suitable here. We also need to consider data partitioning and replication for high availability and fast read/write access.
