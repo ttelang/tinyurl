@@ -1,0 +1,5 @@
+package encoder.src.main.java.learnbay.tinyurl.encoder;
+
+public interface TinyURLService {
+    Link getShortURL();
+}
